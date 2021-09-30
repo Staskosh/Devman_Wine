@@ -19,18 +19,18 @@ parser.add_argument('user_file_link', nargs='?', default='wine.xlsx')
 args = parser.parse_args()
 user_file =  pd.read_excel(args.user_file_link, sheet_name='Лист1', na_values=' ', keep_default_na=False)
 user_file = user_file.to_dict(orient='records')
-sorted_wines = collections.defaultdict(list)
+grouped_wines = collections.defaultdict(list)
 for wine in user_file:
     category = wine['Категория']
-    sorted_wines[category].append(wine)
-sorted_wines = collections.OrderedDict(sorted(sorted_wines.items()))
-actual_date = datetime.datetime.now().year
+    grouped_wines[category].append(wine)
+grouped_wines = collections.OrderedDict(sorted(grouped_wines.items()))
+actual_year = datetime.datetime.now().year
 foundation_year = 1921
-age = actual_date-foundation_year
+company_age = actual_year-foundation_year
 
 rendered_page = template.render(
-    sorted_wines = sorted_wines,
-    age = age,
+    grouped_wines = grouped_wines,
+    age = company_age,
 )
 
 with open('index.html', 'w', encoding="utf8") as file:
