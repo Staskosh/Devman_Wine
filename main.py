@@ -1,3 +1,4 @@
+import argparse
 import collections
 import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -13,7 +14,10 @@ env = Environment(
 
 template = env.get_template('template.html')
 
-user_file =  pd.read_excel('wine.xlsx', sheet_name='Лист1', na_values=' ', keep_default_na=False)
+parser = argparse.ArgumentParser()
+parser.add_argument('user_file_link', nargs='?', default='wine.xlsx')
+args = parser.parse_args()
+user_file =  pd.read_excel(args.user_file_link, sheet_name='Лист1', na_values=' ', keep_default_na=False)
 user_file_dict = user_file.to_dict(orient='records')
 sorted_wines = collections.defaultdict(list)
 for wine in user_file_dict:
