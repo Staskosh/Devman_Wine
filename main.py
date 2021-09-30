@@ -18,9 +18,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('user_file_link', nargs='?', default='wine.xlsx')
 args = parser.parse_args()
 user_file =  pd.read_excel(args.user_file_link, sheet_name='Лист1', na_values=' ', keep_default_na=False)
-user_file_dict = user_file.to_dict(orient='records')
+user_file = user_file.to_dict(orient='records')
 sorted_wines = collections.defaultdict(list)
-for wine in user_file_dict:
+for wine in user_file:
     category = wine['Категория']
     sorted_wines[category].append(wine)
 sorted_wines = collections.OrderedDict(sorted(sorted_wines.items()))
